@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "systemclient",
+  "version": "${version}",
+  "name": "System Client",
+  "description": "Client-side settings menu and configuration manager.",
+  "environment": "client",
+  "entrypoints": { "client": ["com.systemclient.SystemClient"] },
+  "depends": { "fabricloader": ">=0.18.1", "minecraft": "~1.21.11", "java": ">=21", "fabric-api": "*" }
+}

@@ -14,14 +14,14 @@ public final class SystemClient implements ClientModInitializer {
         Config.load();
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.getWindow() == null) return;
-            boolean down = GLFW.glfwGetKey(client.getWindow().getWindow(), GLFW.GLFW_KEY_RIGHT_SHIFT) == GLFW.GLFW_PRESS;
+            boolean down = GLFW.glfwGetKey(client.getWindow().handle(), GLFW.GLFW_KEY_RIGHT_SHIFT) == GLFW.GLFW_PRESS;
             if (down && !wasDown && client.screen == null) client.setScreen(new SystemScreen());
             wasDown = down;
             if (client.screen == null) {
                 for (var entry : Config.MODULES.entrySet()) {
                     int key = entry.getValue().bind;
                     if (key < 0) continue;
-                    boolean pressed = GLFW.glfwGetKey(client.getWindow().getWindow(), key) == GLFW.GLFW_PRESS;
+                    boolean pressed = GLFW.glfwGetKey(client.getWindow().handle(), key) == GLFW.GLFW_PRESS;
                     if (pressed && !held.contains(key)) {
                         entry.getValue().enabled = !entry.getValue().enabled;
                         Config.save();

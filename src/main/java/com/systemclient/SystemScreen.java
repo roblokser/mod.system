@@ -3,6 +3,8 @@ package com.systemclient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
@@ -64,7 +66,8 @@ public final class SystemScreen extends Screen {
         row(g,rx,yy+120,200,"Save config","save"); row(g,rx+215,yy+120,200,"Load config","load");
         g.drawString(font,"File location: .minecraft/config/systemclient/",rx,yy+180,0xFF999999,false);
     }
-    @Override public boolean mouseClicked(double mx,double my,int button){
+    @Override public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick){
+        double mx=event.x(), my=event.y(); int button=event.button();
         for(Row r:rows) if(mx>=r.x&&mx<=r.x+r.w&&my>=r.y&&my<=r.y+r.h){
             String a=r.action;
             if(a.startsWith("module:")){selected=a.substring(7); if(button==2) waitingBind=selected; else Config.MODULES.get(selected).enabled=!Config.MODULES.get(selected).enabled; Config.save(); return true;}
@@ -75,12 +78,13 @@ public final class SystemScreen extends Screen {
         // Sidebar navigation
         int sx=(width-950)/2+20, sy=(height-560)/2+70; String[] nav={"All","Combat","Movement","Player","Render","Visual","Client","Configs","Friends","Waypoints","Settings","Search"};
         for(String n:nav){if(mx>=sx&&mx<=sx+160&&my>=sy-5&&my<=sy+20){page=n;return true;}sy+=34;if(n.equals("Client"))sy+=18;}
-        return super.mouseClicked(mx,my,button);
+        return super.mouseClicked(event,doubleClick);
     }
-    @Override public boolean keyPressed(int key,int scan,int mods){
+    @Override public boolean keyPressed(KeyEvent event){
+        int key=event.key();
         if(waitingBind!=null){Config.MODULES.get(waitingBind).bind=key;waitingBind=null;Config.save();return true;}
         if(key==GLFW.GLFW_KEY_ESCAPE||key==GLFW.GLFW_KEY_RIGHT_SHIFT){onClose();return true;}
-        return super.keyPressed(key,scan,mods);
+        return super.keyPressed(event);
     }
     @Override public void onClose(){Config.save();Minecraft.getInstance().setScreen(null);}
     @Override public boolean isPauseScreen(){return false;}

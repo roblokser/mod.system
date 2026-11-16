@@ -56,7 +56,7 @@ public final class SystemScreen extends Screen {
             row(g,rx,yy,rw,"Trigger prediction: "+(int)m.triggerPrediction+"%","tpred"); yy+=45;
             g.drawString(font,waitingBind!=null?"Press a key to bind "+waitingBind:"Middle-click a module to bind it",rx,yy+12,0xFFAAAAAA,false);
         }
-        g.drawString(font,"UI scaffold: controls and configs are ready for your server-specific logic.",left, y+ h-32,0xFF888888,false);
+       g.drawString(font,"UI scaffold: controls and configs are ready for your server-specific logic.",left, y+528,0xFF888888,false);
     }
     private void row(GuiGraphics g,int x,int y,int w,String text,String action){g.fill(x,y,x+w,y+36,0xFF222426);g.drawString(font,text,x+12,y+12,0xFFE8E8E8,false);rows.add(new Row(x,y,w,36,action));}
     private void renderConfigs(GuiGraphics g,int x,int y){
